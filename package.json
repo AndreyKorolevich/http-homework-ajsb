@@ -1,0 +1,22 @@
+{
+  "name": "ajs-browser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "forever server.js",
+    "watch": "forever -w server.js"
+  },
+  "author": "coursar",
+  "license": "MIT",
+  "dependencies": {
+    "forever": "^3.0.2",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-static": "^5.0.0",
+    "uuid": "^8.3.0"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
