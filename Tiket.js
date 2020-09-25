@@ -16,7 +16,7 @@ class Tiket {
         tikets.push(this.toJSON());
         return  new Promise((resolve, reject) =>{
             fs.writeFile(
-                path.join(__dirname, 'publick', 'db.json'),
+                path.join(__dirname, 'public', 'db.json'),
                 JSON.stringify(tikets),
                 err => {
                     if(err){
@@ -43,7 +43,7 @@ class Tiket {
     static getAll() {
         return new Promise((resolve, reject) => {
             fs.readFile(
-                path.join(__dirname, 'publick', 'db.json'),
+                path.join(__dirname, 'public', 'db.json'),
                 'utf-8',
                 (err, content) => {
                     if (err) {
