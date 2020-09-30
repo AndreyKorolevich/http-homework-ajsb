@@ -60,6 +60,45 @@ class Tiket {
         const tikets = await Tiket.getAll();
         return tikets.find(elem => elem.id === id)
     }
+
+    static async update(tiket){
+        const tikets = await Tiket.getAll();
+        const idx = tikets.findIndex(elem => elem.id === tiket.id);
+        tikets[idx] = tiket;
+
+        return  new Promise((resolve, reject) =>{
+            fs.writeFile(
+                path.join(__dirname, 'public', 'db.json'),
+                JSON.stringify(tikets),
+                err => {
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve()
+                    }
+                }
+            )
+        })
+    }
+
+    static async delete(id){
+        let tikets = await Tiket.getAll();
+        tikets = tikets.filter(elem => elem.id !== id);
+
+        return  new Promise((resolve, reject) =>{
+            fs.writeFile(
+                path.join(__dirname, 'public', 'db.json'),
+                JSON.stringify(tikets),
+                err => {
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve()
+                    }
+                }
+            )
+        })
+    }
 }
 
 module.exports = Tiket;

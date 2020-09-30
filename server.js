@@ -1,7 +1,6 @@
 const http = require('http');
 const path = require('path');
 const Tiket = require('./Tiket');
-const fs = require('fs');
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const koaStatic = require('koa-static');
@@ -49,20 +48,28 @@ app.use(koaBody({
   json: true,
 }));
 
+
 app.use(async ctx => {
-    const { method } = ctx.request.querystring;
+    const { method } = ctx.request;
     switch (method) {
-        case 'allTickets':
-            ctx.response.body = await Tiket.getAll();
-            ctx.response.status = 200;
+        case 'GET':
+            if(ctx.request.query.method === 'allTickets'){
+                ctx.response.body = await Tiket.getAll();
+                ctx.response.status = 200;
+            }else if(ctx.request.query.method === 'ticketById'){
+                const tiketId = await Tiket.getById(ctx.request.query.id);
+                ctx.response.body = tiketId;
+            }
+            break;
+        case 'POST': //createTicket
+            const tiketPost = new Tiket(ctx.request.body.name, ctx.request.body.description, ctx.request.body.status);
+            await tiketPost.save();
             return;
-        case 'ticketById':
-            const tiketId = await Tiket.getById(ctx.request.querystring.id);
-            ctx.response.body = tiketId;
+        case 'PUT':
+            const tiketPut = await Tiket.update(request.body);
             return;
-        case 'createTicket':
-            const tiket = new Tiket(ctx.request.body.name, ctx.request.body.description, ctx.request.body.status);
-            await tiket.save();
+        case 'DELETE':
+            const tiketDel = await Tiket.delete(ctx.request.query.id);
             return;
         default:
             ctx.response.status = 404;
