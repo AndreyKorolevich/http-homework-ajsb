@@ -61,7 +61,7 @@ app.use(async ctx => {
                 ctx.response.body = tiketId;
             }
             break;
-        case 'POST': //createTicket
+        case 'POST':
             const tiketPost = new Tiket(ctx.request.body.name, ctx.request.body.description, ctx.request.body.status);
             await tiketPost.save();
             return;
