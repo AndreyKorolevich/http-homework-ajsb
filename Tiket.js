@@ -35,7 +35,7 @@ class Tiket {
         return {
             name: this.name,
             description: this.description,
-            descriptionStatus = this.descriptionStatus,
+            descriptionStatus: this.descriptionStatus,
             status: this.status,
             created: this.created,
             id: this.id,
