@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 class Tiket {
-    constructor(name, description, descriptionStatus, status) {
+    constructor(name, description) {
         this.id = uuid();
         this.name = name;
         this.description = description;

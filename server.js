@@ -62,7 +62,7 @@ app.use(async ctx => {
             }
             break;
         case 'POST':
-            const tiketPost = new Tiket(ctx.request.body.name, ctx.request.body.description, ctx.request.body.status);
+            const tiketPost = new Tiket(ctx.request.body.name, ctx.request.body.description);
             await tiketPost.save();
             return;
         case 'PUT':
