@@ -3,11 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 class Tiket {
-    constructor(name, description, status) {
+    constructor(name, description, descriptionStatus, status) {
         this.id = uuid();
         this.name = name;
         this.description = description;
-        this.status = status;
+        this.descriptionStatus = false;
+        this.status = false;
         this.created = new Date().toString();
     }
 
@@ -34,6 +35,7 @@ class Tiket {
         return {
             name: this.name,
             description: this.description,
+            descriptionStatus = this.descriptionStatus,
             status: this.status,
             created: this.created,
             id: this.id,
