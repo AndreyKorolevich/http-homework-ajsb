@@ -30,7 +30,7 @@ app.use(async (ctx, next) => {
   if (ctx.request.get('Access-Control-Request-Method')) {
     ctx.response.set({
       ...headers,
-      'Access-Control-Allow-Methods': 'GET, POST, PUD, DELETE, PATCH',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH',
     });
 
     if (ctx.request.get('Access-Control-Request-Headers')) {
@@ -66,10 +66,16 @@ app.use(async ctx => {
             await tiketPost.save();
             return;
         case 'PUT':
-            const tiketPut = await Tiket.update(request.body);
+            if(ctx.request.body.status){
+              await Tiket.updateStatus(ctx.request.body.id);
+            } else if(ctx.request.body.descriptionStatus){
+              await Tiket.updateDescription(ctx.request.body.id);
+            }else{
+              await Tiket.update(ctx.request.body);
+            }
             return;
         case 'DELETE':
-            const tiketDel = await Tiket.delete(ctx.request.query.id);
+            await Tiket.delete(ctx.request.query.id);
             return;
         default:
             ctx.response.status = 404;
@@ -78,5 +84,5 @@ app.use(async ctx => {
 });
 
 
-const port = process.env.PORT || 7070;
+const port = process.env.PORT || 7090;
 http.createServer(app.callback()).listen(port);

@@ -1,15 +1,15 @@
-const uuid = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 
 class Tiket {
     constructor(name, description) {
-        this.id = uuid();
+        this.id = uuidv4();
         this.name = name;
         this.description = description;
         this.descriptionStatus = false;
         this.status = false;
-        this.created = new Date().toString();
+        this.created = new Date().toLocaleString();
     }
 
     async save() {
@@ -66,8 +66,50 @@ class Tiket {
     static async update(tiket){
         const tikets = await Tiket.getAll();
         const idx = tikets.findIndex(elem => elem.id === tiket.id);
-        tikets[idx] = tiket;
+        tikets[idx].name = tiket.name;
+        tikets[idx].description = tiket.description;
 
+        return  new Promise((resolve, reject) =>{
+            fs.writeFile(
+                path.join(__dirname, 'public', 'db.json'),
+                JSON.stringify(tikets),
+                err => {
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve()
+                    }
+                }
+            )
+        })
+    }
+
+    static async updateStatus(id){
+        const tikets = await Tiket.getAll();
+        const idx = tikets.findIndex(elem => elem.id === id);
+        tikets[idx].status = !tikets[idx].status;
+    
+        return  new Promise((resolve, reject) =>{
+            fs.writeFile(
+                path.join(__dirname, 'public', 'db.json'),
+                JSON.stringify(tikets),
+                err => {
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve()
+                    }
+                }
+            )
+        })
+    }
+
+    
+    static async updateDescription(id){
+        const tikets = await Tiket.getAll();
+        const idx = tikets.findIndex(elem => elem.id === id);
+        tikets[idx].descriptionStatus = !tikets[idx].descriptionStatus;
+    
         return  new Promise((resolve, reject) =>{
             fs.writeFile(
                 path.join(__dirname, 'public', 'db.json'),
